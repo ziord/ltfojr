@@ -1,0 +1,6 @@
+*/_dump
+*/_results
+.DS_Store
+structure.txt
+launch.json
+settings.json

@@ -1,0 +1,10 @@
+[submodule "bun"]
+	path = bun
+	url = https://github.com/ziord/bun
+[submodule "TypeScript"]
+	path = TypeScript
+	url = https://github.com/ziord/TypeScript
+[submodule "WebKit"]
+	path = WebKit
+	url = https://github.com/ziord/WebKit
+    shallow = true
