@@ -4,7 +4,3 @@
 [submodule "TypeScript"]
 	path = TypeScript
 	url = https://github.com/ziord/TypeScript
-[submodule "WebKit"]
-	path = WebKit
-	url = https://github.com/ziord/WebKit
-    shallow = true
