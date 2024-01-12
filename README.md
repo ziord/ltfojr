@@ -18,7 +18,7 @@ Complete installation by running:
 # 'Release' for release builds or 'Debug' for debug builds
 chmod +x setup.sh && ./setup.sh Debug
 ```
-**NOTE**: When running this command for the first time, please run the debug build. Future runs can use the release build.
+**NOTE**: When running this command for the first time, please run the debug build. Future runs can use the release option.
 
 ## Benchmarks
 Run benchmark programs using Python:
@@ -31,3 +31,4 @@ python3 bench.py
 cd benches
 python3 bench.py -h 
 ```
+**NOTE**: Benchmarks should be run after release builds (`./setup.sh Release`).
