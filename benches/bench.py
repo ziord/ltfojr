@@ -48,8 +48,9 @@ class AuxInfo:
 
 bench_info: dict[str, list[Program]] = {}
 aux_bench_info: dict[str, AuxInfo] = {}
+bun_path = os.path.join(os.path.dirname(__file__), "bun.txt")
 BUN: str
-with open("bun.txt") as f:
+with open(bun_path) as f:
     BUN = f.read().strip()
 
 
