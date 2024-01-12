@@ -1,6 +1,3 @@
-[submodule "bun"]
-	path = bun
-	url = https://github.com/ziord/bun
 [submodule "TypeScript"]
 	path = TypeScript
 	url = https://github.com/ziord/TypeScript
