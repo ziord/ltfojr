@@ -22,7 +22,7 @@ if ! command -v bun &> /dev/null; then
     curl -fsSL https://bun.sh/install | bash
 fi
 echo "setting up bun.."
-git submodule update --init --recursive --depth 1 --checkout bun
+git submodule update --init --recursive
 cd bun && git checkout patches && git config pull.rebase true && git pull origin patches
 if [[ $build_type == "Debug" ]]; then
     bun setup
