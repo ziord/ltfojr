@@ -10,7 +10,7 @@
 
 ## Installation
 
-If not on debian linux or macOs, install hyperfine: https://github.com/sharkdp/hyperfine
+If not on debian linux or macOs, install hyperfine: https://github.com/sharkdp/hyperfine.
 Other dependencies such as Zig & WebKit are auto-installed (although this has only been tested on macOs).
 
 Complete installation by running:
