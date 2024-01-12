@@ -24,8 +24,10 @@ chmod +x setup.sh && ./setup.sh Debug
 Run benchmark programs using Python:
 
 ```
-python3 bench.py
+cd benches
+python3 bench.py 
 
 # or for help:
+cd benches
 python3 bench.py -h 
 ```

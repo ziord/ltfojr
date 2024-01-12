@@ -26,10 +26,10 @@ git submodule update --init --recursive
 cd bun && git checkout patches && git config pull.rebase true && git pull origin patches
 if [[ $build_type == "Debug" ]]; then
     bun setup
-    bun_path=bun/build/bun-debug
+    bun_path=../bun/build/bun-debug
 elif [[ $build_type == "Release" ]]; then
     bun build:release
-    bun_path=bun/build-release/bun
+    bun_path=../bun/build-release/bun
 else
     echo "invalid build option" && exit 1
 fi
@@ -48,5 +48,5 @@ else
     echo "hyperfine is available."
 fi
 cd $curr_d
-echo $bun_path > "bun.txt"
+printf $bun_path > "benches/bun.txt"
 echo "Installation complete!"
