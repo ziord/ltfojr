@@ -7,9 +7,9 @@ bun_path=""
 
 install_hyperfine() {
     platform=$(uname -s)
-    if [[ platform == "Darwin" ]]; then
+    if [[ $platform == "Darwin" ]]; then
         brew install hyperfine
-    elif [[ platform == "Linux" ]]; then
+    elif [[ $platform == "Linux" ]]; then
         apt install hyperfine
     else
         echo "Platform not supported." && exit 1
