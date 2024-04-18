@@ -66,9 +66,6 @@ var size;
 var displayFunc;
 class Field {
     constructor(dens, u, v) {
-        $__putByIdDirect(this, "dens", void 0);
-        $__putByIdDirect(this, "u", void 1);
-        $__putByIdDirect(this, "v", void 2);
         this.dens = dens;
         this.u = u;
         this.v = v;

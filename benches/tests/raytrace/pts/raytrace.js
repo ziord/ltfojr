@@ -7,9 +7,6 @@ var Flog;
     (function (RayTracer) {
         class Color {
             constructor(r, g, b) {
-                $__putByIdDirect(this, "red", void 0);
-                $__putByIdDirect(this, "green", void 1);
-                $__putByIdDirect(this, "blue", void 2);
                 this.red = r || 0.0;
                 this.green = g || 0.0;
                 this.blue = b || 0.0;
@@ -87,9 +84,6 @@ var Flog;
         RayTracer.Color = Color;
         class Light {
             constructor(pos, color, intensity) {
-                $__putByIdDirect(this, "position", void 0);
-                $__putByIdDirect(this, "color", void 1);
-                $__putByIdDirect(this, "intensity", void 2);
                 this.position = pos;
                 this.color = color;
                 this.intensity = intensity || 10.0;
@@ -101,9 +95,6 @@ var Flog;
         RayTracer.Light = Light;
         class Vector {
             constructor(x, y, z) {
-                $__putByIdDirect(this, "x", void 0);
-                $__putByIdDirect(this, "y", void 1);
-                $__putByIdDirect(this, "z", void 2);
                 this.x = (x ? x : 0);
                 this.y = (y ? y : 0);
                 this.z = (z ? z : 0);
@@ -147,8 +138,6 @@ var Flog;
         RayTracer.Vector = Vector;
         class Ray {
             constructor(pos, dir) {
-                $__putByIdDirect(this, "position", void 0);
-                $__putByIdDirect(this, "direction", void 1);
                 this.position = pos;
                 this.direction = dir;
             }
@@ -159,8 +148,6 @@ var Flog;
         RayTracer.Ray = Ray;
         class Background {
             constructor(color, ambience) {
-                $__putByIdDirect(this, "color", void 0);
-                $__putByIdDirect(this, "ambience", void 1);
                 this.color = color;
                 this.ambience = ambience;
             }
@@ -168,10 +155,6 @@ var Flog;
         RayTracer.Background = Background;
         class Scene {
             constructor() {
-                $__putByIdDirect(this, "camera", void 0);
-                $__putByIdDirect(this, "shapes", void 1);
-                $__putByIdDirect(this, "lights", void 2);
-                $__putByIdDirect(this, "background", void 3);
                 this.camera = new Camera(new Flog.RayTracer.Vector(0, 0, -5), new Flog.RayTracer.Vector(0, 0, 1), new Flog.RayTracer.Vector(0, 1, 0));
                 this.shapes = new Array();
                 this.lights = new Array();
@@ -183,11 +166,6 @@ var Flog;
         (function (Material) {
             class BaseMaterial {
                 constructor() {
-                    $__putByIdDirect(this, "gloss", void 0);
-                    $__putByIdDirect(this, "transparency", void 1);
-                    $__putByIdDirect(this, "reflection", void 2);
-                    $__putByIdDirect(this, "refraction", void 3);
-                    $__putByIdDirect(this, "hasTexture", void 4);
                     this.gloss = 2.0;
                     this.transparency = 0.0;
                     this.reflection = 0.0;
@@ -255,9 +233,6 @@ var Flog;
         (function (Shape) {
             class Sphere {
                 constructor(position, radius, material) {
-                    $__putByIdDirect(this, "position", void 0);
-                    $__putByIdDirect(this, "radius", void 1);
-                    $__putByIdDirect(this, "material", void 2);
                     this.position = position;
                     this.radius = radius;
                     this.material = material;
@@ -288,9 +263,6 @@ var Flog;
             Shape.Sphere = Sphere;
             class Plane {
                 constructor(position, d, material) {
-                    $__putByIdDirect(this, "position", void 0);
-                    $__putByIdDirect(this, "d", void 1);
-                    $__putByIdDirect(this, "material", void 2);
                     this.position = position;
                     this.d = d;
                     this.material = material;

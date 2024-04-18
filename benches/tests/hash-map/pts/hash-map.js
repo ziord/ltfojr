@@ -228,10 +228,6 @@ class HashMap {
 HashMap.DEFAULT_SIZE = 16;
 class Entry {
     constructor(key, hash, value) {
-        $__putByIdDirect(this, "_key", void 0);
-        $__putByIdDirect(this, "_value", void 1);
-        $__putByIdDirect(this, "_origKeyHash", void 2);
-        $__putByIdDirect(this, "_next", void 3);
         this._key = key;
         this._value = value;
         this._origKeyHash = hash;
@@ -240,12 +236,6 @@ class Entry {
 }
 class AbstractMapIterator {
     constructor(map) {
-        $__putByIdDirect(this, "_associatedMap", void 0);
-        $__putByIdDirect(this, "_expectedModCount", void 1);
-        $__putByIdDirect(this, "_futureEntry", void 2);
-        $__putByIdDirect(this, "_currentEntry", void 3);
-        $__putByIdDirect(this, "_prevEntry", void 4);
-        $__putByIdDirect(this, "_position", void 5);
         this._associatedMap = map;
         this._expectedModCount = $__getByIdOffset(map, "_modCount", 4);
         this._futureEntry = null;
@@ -319,7 +309,6 @@ class ValueIterator extends AbstractMapIterator {
 }
 class EntrySet {
     constructor(map) {
-        $__putByIdDirect(this, "_associatedMap", void 0);
         this._associatedMap = map;
     }
     size() {
@@ -349,7 +338,6 @@ class EntrySet {
 }
 class KeySet {
     constructor(map) {
-        $__putByIdDirect(this, "_associatedMap", void 0);
         this._associatedMap = map;
     }
     contains(object) {
@@ -370,7 +358,6 @@ class KeySet {
 }
 class ValueCollection {
     constructor(map) {
-        $__putByIdDirect(this, "_associatedMap", void 0);
         this._associatedMap = map;
     }
     contains(object) {

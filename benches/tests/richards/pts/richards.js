@@ -241,9 +241,6 @@ class TaskControlBlock {
 }
 class IdleTask {
     constructor(scheduler, v1, count) {
-        $__putByIdDirect(this, "scheduler", void 0);
-        $__putByIdDirect(this, "v1", void 1);
-        $__putByIdDirect(this, "count", void 2);
         this.scheduler = scheduler;
         this.v1 = v1;
         this.count = count;
@@ -267,8 +264,6 @@ class IdleTask {
 }
 class DeviceTask {
     constructor(scheduler) {
-        $__putByIdDirect(this, "scheduler", void 0);
-        $__putByIdDirect(this, "v1", void 1);
         this.scheduler = scheduler;
         this.v1 = null;
     }
@@ -291,9 +286,6 @@ class DeviceTask {
 }
 class WorkerTask {
     constructor(scheduler, v1, v2) {
-        $__putByIdDirect(this, "scheduler", void 0);
-        $__putByIdDirect(this, "v1", void 1);
-        $__putByIdDirect(this, "v2", void 2);
         this.scheduler = scheduler;
         this.v1 = v1;
         this.v2 = v2;

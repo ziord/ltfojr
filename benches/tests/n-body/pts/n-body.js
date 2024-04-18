@@ -7,13 +7,6 @@ var SOLAR_MASS = 4 * PI * PI;
 var DAYS_PER_YEAR = 365.24;
 class Body {
     constructor(x, y, z, vx, vy, vz, mass) {
-        $__putByIdDirect(this, "x", void 0);
-        $__putByIdDirect(this, "y", void 1);
-        $__putByIdDirect(this, "z", void 2);
-        $__putByIdDirect(this, "vx", void 3);
-        $__putByIdDirect(this, "vy", void 4);
-        $__putByIdDirect(this, "vz", void 5);
-        $__putByIdDirect(this, "mass", void 6);
         this.x = x;
         this.y = y;
         this.z = z;

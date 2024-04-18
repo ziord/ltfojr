@@ -59,7 +59,6 @@ class HashMap {
         }
     }
     constructor(capacity, loadFactor) {
-        this._elementData = [];
         this._elementCount = 0;
         this._modCount = 0;
         this._threshold = 0;

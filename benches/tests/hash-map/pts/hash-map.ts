@@ -1,3 +1,8 @@
+type FnType = (..._: Key[]) => Key;
+type Item = { [key: string]: any } | boolean | number | string | undefined | null | FnType;
+type Key = Item;
+type Value = Item;
+
 class HashMap {
     private static readonly DEFAULT_SIZE = 16;
   
@@ -14,14 +19,14 @@ class HashMap {
       return x + 1;
     }
   
-    private static computeHashCode(key: any): number {
+    private static computeHashCode(key: Key): number {
       switch (typeof key) {
         case "undefined":
           return 0;
         case "object":
           if (!key) return 0;
         case "function":
-          return key.hashCode();
+          return (key as any).hashCode();
         case "boolean":
           return (key as any) | 0;
         case "number":
@@ -39,7 +44,7 @@ class HashMap {
       }
     }
   
-    static equals(a: any, b: any): boolean {
+    static equals(a: Key, b: Value): boolean {
       if (typeof a !== typeof b) return false;
       switch (typeof a) {
         case "object":
@@ -48,7 +53,7 @@ class HashMap {
           switch (typeof b) {
             case "object":
             case "function":
-              return a.equals(b);
+              return (a as any).equals(b);
             default:
               return false;
           }
@@ -97,11 +102,11 @@ class HashMap {
       return result;
     }
   
-    containsKey(key: any): boolean {
+    containsKey(key: Key): boolean {
       return !!this._getEntry(key);
     }
   
-    containsValue(value: any): boolean {
+    containsValue(value: Value): boolean {
       for (let i = this._elementData.length; i--; ) {
         for (let entry = this._elementData[i]; entry; entry = entry._next) {
           if (HashMap.equals(value, entry._value)) return true;
@@ -114,18 +119,18 @@ class HashMap {
       return new EntrySet(this);
     }
   
-    get(key: any): any {
+    get(key: Key): Value {
       const entry = this._getEntry(key);
       return entry ? entry._value : null;
     }
   
-    _getEntry(key: any): Entry | null {
+    _getEntry(key: Key): Entry | null {
       const hash = HashMap.computeHashCode(key);
       const index = hash & (this._elementData.length - 1);
       return this._findKeyEntry(key, index, hash);
     }
   
-    _findKeyEntry(key: any, index: number, keyHash: number): Entry | null {
+    _findKeyEntry(key: Key, index: number, keyHash: number): Entry | null {
       let entry = this._elementData[index];
       while (entry && (entry._origKeyHash !== keyHash || !HashMap.equals(key, entry._key)))
         entry = entry._next;
@@ -140,7 +145,7 @@ class HashMap {
       return new KeySet(this);
     }
   
-    put(key: any, value: any): any {
+    put(key: Key, value: Value): Value {
       const hash = HashMap.computeHashCode(key);
       const index = hash & (this._elementData.length - 1);
       let entry = this._findKeyEntry(key, index, hash);
@@ -151,11 +156,11 @@ class HashMap {
       }
   
       const result = entry._value;
-      (entry as any)._value = value;
+      entry._value = value;
       return result;
     }
   
-    private _createHashedEntry(key: any, index: number, hash: number): Entry {
+    private _createHashedEntry(key: Key, index: number, hash: number): Entry {
       const entry = new Entry(key, hash, null);
       entry._next = this._elementData[index];
       this._elementData[index] = entry;
@@ -187,11 +192,11 @@ class HashMap {
           entry = next;
         }
       }
-      (this as any)._elementData = newData;
+      this._elementData = newData;
       this._computeThreshold();
     }
   
-    remove(key: any): any {
+    remove(key: Key): Value {
       const entry = this._removeEntryForKey(key);
       if (!entry) return null;
       return entry._value;
@@ -209,11 +214,11 @@ class HashMap {
       this._elementCount--;
     }
   
-    private _removeEntryForKey(key: any): Entry | null {
+    private _removeEntryForKey(key: Key): Entry | null {
       const hash = HashMap.computeHashCode(key);
       const index = hash & (this._elementData.length - 1);
       let entry = this._elementData[index];
-      let last = null;
+      let last = null as Entry | null;
       while (entry !== null && !(entry._origKeyHash === hash && HashMap.equals(key, entry._key))) {
         last = entry;
         entry = entry._next;
@@ -236,12 +241,12 @@ class HashMap {
   }
   
 class Entry {
-  readonly _key: any;
-  readonly _value: any;
+  readonly _key: Key;
+  _value: Value;
   readonly _origKeyHash: number;
   _next: Entry | null;
 
-  constructor(key: any, hash: number, value: any) {
+  constructor(key: Key, hash: number, value: Value) {
     this._key = key;
     this._value = value;
     this._origKeyHash = hash;
@@ -316,14 +321,14 @@ class EntryIterator extends AbstractMapIterator {
 }
 
 class KeyIterator extends AbstractMapIterator {
-  next(): any {
+  next(): Key {
     this._makeNext();
     return this._currentEntry!._key;
   }
 }
 
 class ValueIterator extends AbstractMapIterator {
-  next(): any {
+  next(): Value {
     this._makeNext();
     return this._currentEntry!._value;
   }
@@ -370,7 +375,7 @@ class KeySet {
     this._associatedMap = map;
   }
 
-  contains(object: any): boolean {
+  contains(object: Key): boolean {
     return this._associatedMap.containsKey(object);
   }
 
@@ -382,7 +387,7 @@ class KeySet {
     this._associatedMap.clear();
   }
 
-  remove(key: any): boolean {
+  remove(key: Key): boolean {
     return !!this._associatedMap.remove(key);
   }
 
@@ -398,7 +403,7 @@ class ValueCollection {
     this._associatedMap = map;
   }
 
-  contains(object: any): boolean {
+  contains(object: Value): boolean {
     return this._associatedMap.containsValue(object);
   }
 
@@ -423,15 +428,15 @@ function run() {
 
   let result = 0;
   for (let j = 0; j < 5; ++j) {
-    for (let i = 0; i < COUNT; ++i) result += map.get(i);
+    for (let i = 0; i < COUNT; ++i) result += <number>map.get(i);
   }
 
   let keySum = 0;
   let valueSum = 0;
   for (const iterator = map.entrySet().iterator(); iterator.hasNext(); ) {
     const entry = iterator.next()!;
-    keySum += entry._key;
-    valueSum += entry._value;
+    keySum += <number>entry._key;
+    valueSum += <number>entry._value;
   }
 
   if (result !== 42 * COUNT * 5) throw "Error: result = " + result;

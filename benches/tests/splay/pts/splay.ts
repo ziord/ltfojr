@@ -230,7 +230,7 @@ class SplayTree {
         // the L tree of the algorithm.  The left child of the dummy node
         // will hold the R tree of the algorithm.  Using a dummy node, left
         // and right will always be nodes and we avoid special cases.
-        let dummy, left, right;
+        let dummy: SplayNode, left: SplayNode, right: SplayNode;
         dummy = left = right = new SplayNode(null as any, null as any);
         let current = this.root_!;
         while (true) {

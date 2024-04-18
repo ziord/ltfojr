@@ -74,8 +74,6 @@ def select_js_files(_root: str, skip: str):
                 aux_bench_info[tst_name] = AuxInfo()
             bench_info[tst_name].append(Program(tst_name, kind, location))
 
-# def get_program_id(path: str) -> str:
-#     return path.split(os.path.sep)[-1].split('.')[0]
 
 def save_bench_output(stdout_result: str, stderr_result: str, tst_name: str):
     """
@@ -92,18 +90,24 @@ def save_bench_output(stdout_result: str, stderr_result: str, tst_name: str):
         1.03 ± 0.08 times faster than .../bun/build-release/bun n-body/ojs/n-body.js
         1.05 ± 0.08 times faster than .../bun/build-release/bun n-body/nts/n-body.js
     """
-    pattern_time = r'(\d+\.\d+)\s+ms\s*±\s*(\d+\.\d+)\s*ms'
-    pattern_range = r'(\d+\.\d+)\s*ms\s*…\s*(\d+\.\d+)\s*ms'
+    pattern_time_ms = r'(\d+\.\d+)\s+ms\s*±\s*(\d+\.\d+)\s*ms'
+    pattern_time_s = r'(\d+\.\d+)\s+s\s*±\s*(\d+\.\d+)\s*s'
+    pattern_range_ms = r'(\d+\.\d+)\s*ms\s*…\s*(\d+\.\d+)\s*ms'
+    pattern_range_s = r'(\d+\.\d+)\s*s\s*…\s*(\d+\.\d+)\s*s'
     pattern_time2 = r'(\d+\.\d+)\s*±\s*(\d+\.\d+)'
     lines = stdout_result.splitlines()
     outliers = stderr_result.strip().startswith("Warning: Statistical outliers")
     for i, line in enumerate(lines):
         if line.startswith("Benchmark"):
             location = line.split()[-1]
-            match = re.search(pattern_time, lines[i + 1])
+            match = re.search(pattern_time_ms, lines[i + 1])
+            if not match:
+                match = re.search(pattern_time_s, lines[i + 1])
             mean_time = (match.group(1))
             sigma_time = (match.group(2))
-            match = re.search(pattern_range, lines[i + 2])
+            match = re.search(pattern_range_ms, lines[i + 2])
+            if not match:
+                match = re.search(pattern_range_s, lines[i + 2])
             min_time = (match.group(1))
             max_time = (match.group(2))
             progs = bench_info[tst_name]
@@ -114,20 +118,20 @@ def save_bench_output(stdout_result: str, stderr_result: str, tst_name: str):
                     break
         elif line.startswith("Summary"):
             # first
-            fastest = lines[i + 1].split()[-2] # location
+            fastest = lines[i + 1].split()[-2].strip("'") # location
             aux_bench_info[tst_name].add(fastest, Time(1, 0))
             aux_bench_info[tst_name].fastest = fastest
             # second
             match = re.search(pattern_time2, lines[i + 2].strip())
             mean_time_1 = (match.group(1))
             sigma_time_1 = (match.group(2))
-            aux_bench_info[tst_name].add(lines[i + 2].split()[-1], Time(mean_time_1, sigma_time_1))
+            aux_bench_info[tst_name].add(lines[i + 2].split()[-1].strip("'"), Time(mean_time_1, sigma_time_1))
             # third
             if i + 3 < len(lines):
                 match = re.search(pattern_time2, lines[i + 3].strip())
                 mean_time_2 = (match.group(1))
                 sigma_time_2 = (match.group(2))
-                aux_bench_info[tst_name].add(lines[i + 3].split()[-1], Time(mean_time_2, sigma_time_2))
+                aux_bench_info[tst_name].add(lines[i + 3].split()[-1].strip("'"), Time(mean_time_2, sigma_time_2))
 
 
 def run_benchmark(directory: str, warmup: int, skip: str, fn: str, runs: int):
@@ -155,7 +159,9 @@ def get_filenames(filename: str = None):
         dt = datetime.datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
         new_dir = f'{_dir}/{dt}'
         os.mkdir(new_dir)
-        return f'{new_dir}/_nts-pts.csv', f'{new_dir}/_all.csv'
+        all_new_dir = f'{_dir}/{dt}/all'
+        os.mkdir(all_new_dir)
+        return f'{new_dir}/_nts-pts.csv', f'{all_new_dir}/_all.csv'
 
 
 def write_results(filename: str):

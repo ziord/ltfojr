@@ -90,10 +90,6 @@ function SplayRun() {
 }
 class SplayNode {
     constructor(key, value, left = null, right = null) {
-        $__putByIdDirect(this, "key", void 0);
-        $__putByIdDirect(this, "value", void 1);
-        $__putByIdDirect(this, "left", void 2);
-        $__putByIdDirect(this, "right", void 3);
         this.key = key;
         this.value = value;
         this.left = left;
@@ -112,7 +108,6 @@ class SplayNode {
 }
 class SplayTree {
     constructor() {
-        $__putByIdDirect(this, "root_", void 0);
         this.root_ = null;
     }
     isEmpty() {

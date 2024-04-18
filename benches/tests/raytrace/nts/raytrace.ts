@@ -222,7 +222,7 @@ namespace Flog {
                 constructor() {
                 }
 
-                getColor(u: any, v: any): Color {
+                getColor(u: number, v: number): Color {
                     return (undefined as any);
                 }
 
@@ -249,7 +249,7 @@ namespace Flog {
                     super();
                 }
 
-                getColor(u: any, v: any) {
+                getColor(u: number, v: number) {
                     return this.color;
                 }
 
@@ -271,7 +271,7 @@ namespace Flog {
                     this.hasTexture = true;
                 }
 
-                getColor(u: any, v: any) {
+                getColor(u: number, v: number) {
                     const t = this.wrapUp(u * this.density) * this.wrapUp(v * this.density);
 
                     if (t < 0.0)
@@ -376,7 +376,7 @@ namespace Flog {
         export class IntersectionInfo {
             isHit: boolean = false;
             hitCount = 0;
-            shape:any = null;
+            shape:_Shape | null = null;
             position: Vector | null = null;
             normal: Vector | null = null;
             color: Color | undefined;
@@ -461,7 +461,7 @@ namespace Flog {
                 this.options.canvasWidth /= this.options.pixelWidth;
             }
 
-            setPixel(x: any, y: any, color: Color): void {
+            setPixel(x: number, y: number, color: Color): void {
                 var pxW, pxH;
                 pxW = this.options.pixelWidth;
                 pxH = this.options.pixelHeight;
@@ -548,7 +548,7 @@ namespace Flog {
                 // Calc ambient
                 var color = Flog.RayTracer.Color.prototype.multiplyScalar(info.color!, scene.background.ambience);
                 var oldColor = color;
-                var shininess = Math.pow(10, info.shape.material.gloss + 1);
+                var shininess = Math.pow(10, info.shape!.material.gloss + 1);
         
                 for(var i=0; i<scene.lights.length; i++){
                     var light = scene.lights[i];
@@ -579,7 +579,7 @@ namespace Flog {
                     // this is exponentially (!) expensive
                     if(depth <= this.options.rayDepth){
                   // calculate reflection ray
-                  if(this.options.renderReflections && info.shape.material.reflection > 0)
+                  if(this.options.renderReflections && info.shape!.material.reflection > 0)
                   {
                       var reflectionRay = this.getReflectionRay(info.position!, info.normal!, ray.direction);
                       var refl = this.testIntersection(reflectionRay, scene, info.shape);
@@ -593,7 +593,7 @@ namespace Flog {
                           color = Flog.RayTracer.Color.prototype.blend(
                             color,
                             refl.color,
-                            info.shape.material.reflection
+                            info.shape!.material.reflection
                           );
                   }
         
@@ -611,21 +611,21 @@ namespace Flog {
                         shadowInfo = this.testIntersection(shadowRay, scene, info.shape);
                         if(shadowInfo.isHit && shadowInfo.shape != info.shape /*&& shadowInfo.shape.type != 'PLANE'*/){
                             var vA = Flog.RayTracer.Color.prototype.multiplyScalar(color, 0.5);
-                            var dB = (0.5 * Math.pow(shadowInfo.shape.material.transparency, 0.5));
+                            var dB = (0.5 * Math.pow(shadowInfo.shape!.material.transparency, 0.5));
                             color = Flog.RayTracer.Color.prototype.addScalar(vA,dB);
                         }
                     }
         
               // Phong specular highlights
-              if(this.options.renderHighlights && !shadowInfo.isHit && info.shape.material.gloss > 0){
+              if(this.options.renderHighlights && !shadowInfo.isHit && info.shape!.material.gloss > 0){
                 var Lv = Flog.RayTracer.Vector.prototype.subtract(
-                                    info.shape.position,
+                                    info.shape!.position,
                                     light.position
                                 ).normalize();
         
                 var E = Flog.RayTracer.Vector.prototype.subtract(
                                     scene.camera.position,
-                                    info.shape.position
+                                    info.shape!.position
                                 ).normalize();
         
                 var H = Flog.RayTracer.Vector.prototype.subtract(
